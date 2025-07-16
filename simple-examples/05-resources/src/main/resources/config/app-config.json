@@ -1,0 +1,23 @@
+{
+  "application": {
+    "name": "${app.name}",
+    "version": "${app.version}",
+    "description": "${app.description}"
+  },
+  "configuration": {
+    "environment": "${maven.profiles.active}",
+    "logLevel": "${log.level}",
+    "debug": false
+  },
+  "database": {
+    "url": "${database.url}",
+    "username": "${database.username}",
+    "poolSize": 10,
+    "timeout": "${api.timeout}"
+  },
+  "features": {
+    "caching": true,
+    "monitoring": true,
+    "experimental": false
+  }
+}

@@ -1,0 +1,12 @@
+This is a sample text file used to demonstrate resource loading.
+
+It contains:
+- Plain text content
+- No filtering or property substitution
+- Used for testing resource access methods
+
+The file is located in src/main/resources/data/ and will be
+copied to the classpath during the Maven build process.
+
+This demonstrates how Maven handles static resources that
+should not be filtered or processed.
