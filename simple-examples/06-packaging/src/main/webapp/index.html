@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maven Packaging Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #007acc;
+            padding-bottom: 10px;
+        }
+        .packaging-type {
+            background: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #2196f3;
+            margin: 20px 0;
+        }
+        .command {
+            background: #263238;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .nav-links {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .nav-links a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: #007acc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #005a9e;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .feature h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Maven Packaging Demo</h1>
+        
+        <div class="packaging-type">
+            <h2>Welcome to Maven Packaging Examples</h2>
+            <p>This application demonstrates different Maven packaging strategies and can be built in multiple ways:</p>
+        </div>
+        
+        <div class="nav-links">
+            <a href="/packaging">Web Interface</a>
+            <a href="/demo">Demo Servlet</a>
+            <a href="#jar">JAR Info</a>
+            <a href="#war">WAR Info</a>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>📦 Standard JAR</h3>
+                <p>Traditional Java archive with external dependencies</p>
+                <div class="command">mvn clean package</div>
+                <p>Creates: packaging-demo-1.0.0.jar</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🎯 Fat JAR (Uber JAR)</h3>
+                <p>Single JAR file containing all dependencies</p>
+                <div class="command">mvn clean package -Pfat-jar</div>
+                <p>Creates: packaging-demo-1.0.0-fat.jar</p>
+            </div>
+            
+            <div class="feature">
+                <h3>⚡ Executable JAR</h3>
+                <p>Self-contained JAR with embedded server capabilities</p>
+                <div class="command">mvn clean package -Pexecutable</div>
+                <p>Creates: packaging-demo-1.0.0-executable.jar</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🌐 WAR File</h3>
+                <p>Web application archive for servlet containers</p>
+                <div class="command">mvn clean package -Pwar</div>
+                <p>Creates: packaging-demo-1.0.0.war</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔧 Assembly JAR</h3>
+                <p>Custom packaging with Maven Assembly Plugin</p>
+                <div class="command">mvn clean package assembly:single</div>
+                <p>Creates: packaging-demo-1.0.0-jar-with-dependencies.jar</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🏃 Run Examples</h3>
+                <p>Different ways to execute the application</p>
+                <div class="command">
+                    # Standard execution<br>
+                    mvn exec:java<br><br>
+                    # JAR execution<br>
+                    java -jar target/packaging-demo-1.0.0.jar<br><br>
+                    # Fat JAR execution<br>
+                    java -jar target/packaging-demo-1.0.0-fat.jar
+                </div>
+            </div>
+        </div>
+        
+        <div class="packaging-type">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li><strong>Standard JAR:</strong> Understand traditional Java packaging with external classpath</li>
+                <li><strong>Fat JAR:</strong> Learn about self-contained deployment with all dependencies</li>
+                <li><strong>Executable JAR:</strong> Explore Spring Boot style packaging for microservices</li>
+                <li><strong>WAR:</strong> Web application deployment to servlet containers like Tomcat</li>
+                <li><strong>Assembly:</strong> Custom packaging strategies for specific deployment needs</li>
+            </ul>
+        </div>
+        
+        <div class="packaging-type">
+            <h2>📋 Use Cases</h2>
+            <ul>
+                <li><strong>Microservices:</strong> Executable JARs for containerized deployments</li>
+                <li><strong>Enterprise Web Apps:</strong> WAR files for traditional application servers</li>
+                <li><strong>Standalone Tools:</strong> Fat JARs for easy distribution and execution</li>
+                <li><strong>Library Distribution:</strong> Standard JARs for Maven/Gradle dependencies</li>
+                <li><strong>Custom Deployments:</strong> Assembly packaging for specific requirements</li>
+            </ul>
+        </div>
+        
+        <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <p>Maven Packaging Examples v1.0.0 | Built with ❤️ for learning</p>
+        </footer>
+    </div>
+</body>
+</html>

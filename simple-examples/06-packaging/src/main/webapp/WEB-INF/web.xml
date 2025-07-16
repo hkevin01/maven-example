@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    
+    <display-name>Maven Packaging Demo Web Application</display-name>
+    <description>
+        Web application demonstrating Maven WAR packaging capabilities
+    </description>
+    
+    <!-- Application Configuration -->
+    <context-param>
+        <param-name>app.version</param-name>
+        <param-value>1.0.0</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>packaging.type</param-name>
+        <param-value>WAR</param-value>
+    </context-param>
+    
+    <!-- Servlet Configuration (Alternative to annotations) -->
+    <servlet>
+        <servlet-name>PackagingServlet</servlet-name>
+        <servlet-class>com.example.PackagingServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>PackagingServlet</servlet-name>
+        <url-pattern>/packaging</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>PackagingServlet</servlet-name>
+        <url-pattern>/demo</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Welcome Files -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>packaging</welcome-file>
+    </welcome-file-list>
+    
+    <!-- Session Configuration -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    
+    <!-- Error Pages -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/packaging</location>
+    </error-page>
+    
+</web-app>

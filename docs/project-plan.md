@@ -31,7 +31,7 @@ Create a comprehensive Maven learning repository that serves as a practical guid
   - [x] Dependency management basics (02-dependencies)
   - [x] Plugin configuration (03-plugins)
   - [x] Testing fundamentals (04-testing) - Framework setup
-  - [ ] Resource handling (05-resources)
+  - [x] Resource handling (05-resources)
   - [ ] Packaging examples (06-packaging)
   - [ ] Properties usage (07-properties)
   - [ ] Profile management (08-profiles)
