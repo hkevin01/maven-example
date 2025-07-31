@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logback Configuration (Maven Filtered) -->
+<!-- This XML demonstrates property substitution in configuration files -->
+
+<configuration>
+    <property name="LOG_LEVEL" value="${log.level}" />
+    <property name="APP_NAME" value="${app.name}" />
+    <property name="ENVIRONMENT" value="${environment}" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [${APP_NAME}] [${ENVIRONMENT}] %logger{36}
+                - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/logs/${APP_NAME}-${ENVIRONMENT}.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [${APP_NAME}] [${ENVIRONMENT}]
+                %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

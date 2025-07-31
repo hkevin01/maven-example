@@ -19,7 +19,7 @@ This repository contains practical Maven examples designed to help developers le
 ## 🛠 Prerequisites
 
 - Java 8 or higher
-- Apache Maven 3.6+ 
+- Apache Maven 3.6+
 - Git
 - IDE of your choice (IntelliJ IDEA, Eclipse, VS Code)
 
@@ -84,6 +84,11 @@ maven-example/
 ## 📋 Documentation
 
 Visit the [docs](./docs/) folder for detailed guides and tutorials.
+
+### Key Documents
+- [Getting Started Guide](./docs/getting-started.md) - Setup and quick start
+- [Project Plan](./docs/project-plan.md) - Complete project roadmap and timeline
+- [**Progress Tracking**](./docs/progress-tracking.md) - Comprehensive project progress analysis and status
 
 ## 🤝 Contributing
 

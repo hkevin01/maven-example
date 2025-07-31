@@ -32,9 +32,9 @@ Create a comprehensive Maven learning repository that serves as a practical guid
   - [x] Plugin configuration (03-plugins)
   - [x] Testing fundamentals (04-testing) - Framework setup
   - [x] Resource handling (05-resources)
-  - [ ] Packaging examples (06-packaging)
-  - [ ] Properties usage (07-properties)
-  - [ ] Profile management (08-profiles)
+  - [x] Packaging examples (06-packaging)
+  - [x] Properties usage (07-properties)
+  - [x] Profile management (08-profiles)
 - [x] Advanced Examples Planning
 - [x] Documentation templates
 
@@ -192,6 +192,6 @@ docs/
 
 ---
 
-**Last Updated**: July 15, 2025  
-**Version**: 1.0  
+**Last Updated**: July 15, 2025
+**Version**: 1.0
 **Status**: In Progress

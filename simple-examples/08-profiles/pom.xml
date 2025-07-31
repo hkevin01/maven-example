@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-profiles</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>Maven Profiles Example</name>
+    <description>Comprehensive demonstration of Maven profiles for environment management, feature flags, and build customization</description>
+
+    <properties>
+        <!-- Default properties (can be overridden by profiles) -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <!-- Application properties -->
+        <app.name>Maven Profiles Demo</app.name>
+        <app.version>${project.version}</app.version>
+
+        <!-- Default environment configuration -->
+        <environment>local</environment>
+        <log.level>INFO</log.level>
+        <database.host>localhost</database.host>
+        <database.port>5432</database.port>
+        <database.name>maven_demo</database.name>
+        <api.base.url>http://localhost:8080</api.base.url>
+        <api.timeout>30000</api.timeout>
+
+        <!-- Default feature flags -->
+        <feature.debug.enabled>false</feature.debug.enabled>
+        <feature.metrics.enabled>false</feature.metrics.enabled>
+        <feature.cache.enabled>true</feature.cache.enabled>
+        <feature.security.strict>false</feature.security.strict>
+
+        <!-- Default build configuration -->
+        <skip.tests>false</skip.tests>
+        <skip.integration.tests>true</skip.integration.tests>
+        <compile.debug>true</compile.debug>
+        <compile.optimize>false</compile.optimize>
+
+        <!-- Dependency versions -->
+        <junit.version>5.8.2</junit.version>
+        <assertj.version>3.24.2</assertj.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <logback.version>1.4.8</logback.version>
+        <h2.version>2.1.214</h2.version>
+        <postgresql.version>42.6.0</postgresql.version>
+    </properties>
+
+    <dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- Database drivers (availability depends on profiles) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Resource filtering to substitute profile properties -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <debug>${compile.debug}</debug>
+                    <optimize>${compile.optimize}</optimize>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <skipTests>${skip.tests}</skipTests>
+                    <systemPropertyVariables>
+                        <environment>${environment}</environment>
+                        <log.level>${log.level}</log.level>
+                        <database.host>${database.host}</database.host>
+                        <api.base.url>${api.base.url}</api.base.url>
+                        <feature.debug.enabled>${feature.debug.enabled}</feature.debug.enabled>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <skipITs>${skip.integration.tests}</skipITs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Profile Definitions -->
+    <profiles>
+
+        <!-- ================================================================ -->
+        <!-- ENVIRONMENT PROFILES                                             -->
+        <!-- ================================================================ -->
+
+        <!-- Local Development Profile (Active by Default) -->
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <environment>local</environment>
+                <log.level>DEBUG</log.level>
+                <database.host>localhost</database.host>
+                <database.port>5432</database.port>
+                <api.base.url>http://localhost:8080</api.base.url>
+                <feature.debug.enabled>true</feature.debug.enabled>
+                <feature.metrics.enabled>false</feature.metrics.enabled>
+                <compile.debug>true</compile.debug>
+                <compile.optimize>false</compile.optimize>
+            </properties>
+        </profile>
+
+        <!-- Development Environment Profile -->
+        <profile>
+            <id>development</id>
+            <properties>
+                <environment>development</environment>
+                <log.level>DEBUG</log.level>
+                <database.host>dev-db.example.com</database.host>
+                <database.port>5432</database.port>
+                <api.base.url>https://api-dev.example.com</api.base.url>
+                <feature.debug.enabled>true</feature.debug.enabled>
+                <feature.metrics.enabled>true</feature.metrics.enabled>
+                <feature.cache.enabled>false</feature.cache.enabled>
+                <api.timeout>60000</api.timeout>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Testing Environment Profile -->
+        <profile>
+            <id>testing</id>
+            <properties>
+                <environment>testing</environment>
+                <log.level>INFO</log.level>
+                <database.host>test-db.example.com</database.host>
+                <database.port>5432</database.port>
+                <api.base.url>https://api-test.example.com</api.base.url>
+                <feature.debug.enabled>false</feature.debug.enabled>
+                <feature.metrics.enabled>true</feature.metrics.enabled>
+                <feature.security.strict>true</feature.security.strict>
+                <api.timeout>15000</api.timeout>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Staging Environment Profile -->
+        <profile>
+            <id>staging</id>
+            <properties>
+                <environment>staging</environment>
+                <log.level>WARN</log.level>
+                <database.host>staging-db.example.com</database.host>
+                <database.port>5432</database.port>
+                <api.base.url>https://api-staging.example.com</api.base.url>
+                <feature.debug.enabled>false</feature.debug.enabled>
+                <feature.metrics.enabled>true</feature.metrics.enabled>
+                <feature.cache.enabled>true</feature.cache.enabled>
+                <feature.security.strict>true</feature.security.strict>
+                <api.timeout>10000</api.timeout>
+                <compile.debug>false</compile.debug>
+                <compile.optimize>true</compile.optimize>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Production Environment Profile -->
+        <profile>
+            <id>production</id>
+            <properties>
+                <environment>production</environment>
+                <log.level>ERROR</log.level>
+                <database.host>prod-db.example.com</database.host>
+                <database.port>5432</database.port>
+                <api.base.url>https://api.example.com</api.base.url>
+                <feature.debug.enabled>false</feature.debug.enabled>
+                <feature.metrics.enabled>true</feature.metrics.enabled>
+                <feature.cache.enabled>true</feature.cache.enabled>
+                <feature.security.strict>true</feature.security.strict>
+                <api.timeout>5000</api.timeout>
+                <compile.debug>false</compile.debug>
+                <compile.optimize>true</compile.optimize>
+                <skip.tests>false</skip.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- ================================================================ -->
+        <!-- FEATURE PROFILES                                                 -->
+        <!-- ================================================================ -->
+
+        <!-- Debug Features Profile -->
+        <profile>
+            <id>debug</id>
+            <properties>
+                <feature.debug.enabled>true</feature.debug.enabled>
+                <log.level>DEBUG</log.level>
+                <compile.debug>true</compile.debug>
+            </properties>
+        </profile>
+
+        <!-- Performance Monitoring Profile -->
+        <profile>
+            <id>metrics</id>
+            <properties>
+                <feature.metrics.enabled>true</feature.metrics.enabled>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.micrometer</groupId>
+                    <artifactId>micrometer-core</artifactId>
+                    <version>1.11.1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Security Hardening Profile -->
+        <profile>
+            <id>security</id>
+            <properties>
+                <feature.security.strict>true</feature.security.strict>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>8.2.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- ================================================================ -->
+        <!-- BUILD PROFILES                                                   -->
+        <!-- ================================================================ -->
+
+        <!-- Fast Build Profile (Skip Tests) -->
+        <profile>
+            <id>fast</id>
+            <properties>
+                <skip.tests>true</skip.tests>
+                <skip.integration.tests>true</skip.integration.tests>
+                <compile.optimize>true</compile.optimize>
+            </properties>
+        </profile>
+
+        <!-- Full Build Profile (All Tests) -->
+        <profile>
+            <id>full</id>
+            <properties>
+                <skip.tests>false</skip.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+        </profile>
+
+        <!-- ================================================================ -->
+        <!-- ACTIVATION-BASED PROFILES                                        -->
+        <!-- ================================================================ -->
+
+        <!-- Java Version Specific Profile -->
+        <profile>
+            <id>java11plus</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <properties>
+                <feature.modern.java>true</feature.modern.java>
+            </properties>
+        </profile>
+
+        <!-- Operating System Specific Profile -->
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <script.extension>.bat</script.extension>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <script.extension>.sh</script.extension>
+            </properties>
+        </profile>
+
+        <!-- Property-based Activation Profile -->
+        <profile>
+            <id>ci-build</id>
+            <activation>
+                <property>
+                    <name>ci</name>
+                </property>
+            </activation>
+            <properties>
+                <build.type>ci</build.type>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+        </profile>
+
+        <!-- File-based Activation Profile -->
+        <profile>
+            <id>docker-build</id>
+            <activation>
+                <file>
+                    <exists>Dockerfile</exists>
+                </file>
+            </activation>
+            <properties>
+                <docker.available>true</docker.available>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>1.4.13</version>
+                        <configuration>
+                            <repository>${project.artifactId}</repository>
+                            <tag>${project.version}</tag>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+</project>
