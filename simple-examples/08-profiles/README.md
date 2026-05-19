@@ -266,13 +266,13 @@ ERROR [Maven Profiles Demo] [production] c.example.ProfileDemo -      - Minimal 
 
 Each environment has tailored settings:
 
-| Environment | Database | Logging | Security | Features |
+| <sub>Environment</sub> | <sub>Database</sub> | <sub>Logging</sub> | <sub>Security</sub> | <sub>Features</sub> |
 |-------------|----------|---------|----------|----------|
-| Local | H2 in-memory | DEBUG | Relaxed | All enabled |
-| Development | PostgreSQL | DEBUG | Basic | Metrics + Debug |
-| Testing | PostgreSQL | INFO | Strict | Integration tests |
-| Staging | PostgreSQL | WARN | Production-like | Monitoring |
-| Production | PostgreSQL | ERROR | Maximum | Optimized |
+| <sub>Local</sub> | <sub>H2 in-memory</sub> | <sub>DEBUG</sub> | <sub>Relaxed</sub> | <sub>All enabled</sub> |
+| <sub>Development</sub> | <sub>PostgreSQL</sub> | <sub>DEBUG</sub> | <sub>Basic</sub> | <sub>Metrics + Debug</sub> |
+| <sub>Testing</sub> | <sub>PostgreSQL</sub> | <sub>INFO</sub> | <sub>Strict</sub> | <sub>Integration tests</sub> |
+| <sub>Staging</sub> | <sub>PostgreSQL</sub> | <sub>WARN</sub> | <sub>Production-like</sub> | <sub>Monitoring</sub> |
+| <sub>Production</sub> | <sub>PostgreSQL</sub> | <sub>ERROR</sub> | <sub>Maximum</sub> | <sub>Optimized</sub> |
 
 ### 2. Property Precedence and Inheritance
 
